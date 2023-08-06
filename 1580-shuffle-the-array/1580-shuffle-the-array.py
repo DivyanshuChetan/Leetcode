@@ -1,7 +1,15 @@
+# class Solution(object):
+#     def shuffle(self, nums, n):
+#         ans=[]
+#         for i in range(n):
+#             ans.append(nums[i])
+#             ans.append(nums[i+n])
+#         return ans
+
 class Solution(object):
     def shuffle(self, nums, n):
         ans=[]
         for i in range(n):
-            ans.append(nums[i])
-            ans.append(nums[i+n])
+            ans+=[nums[i]]
+            ans+=[nums[i+n]]
         return ans
