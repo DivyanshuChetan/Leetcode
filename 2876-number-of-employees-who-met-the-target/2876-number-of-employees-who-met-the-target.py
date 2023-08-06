@@ -1,8 +1,3 @@
-class Solution(object):
-    def numberOfEmployeesWhoMetTarget(self, hours, target):
-        count=0
-        for i in range(len(hours)):
-            if hours[i]>=target:
-                i+=1
-                count+=1
-        return count
+class Solution:
+    def numberOfEmployeesWhoMetTarget(self, hours: List[int], target: int) -> int:
+       return len([i for i in hours if i>=target])
