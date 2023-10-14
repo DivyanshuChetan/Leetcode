@@ -4,46 +4,37 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        size = 0;
-        t = head;
-        while(t):
-            size+=1
-            t=t.next
-        if( size < 2 ): return head;
-
-        def merge(node,size):
-            if( size == 1 ): return ListNode(node.val);
+    def divide(self,head):
+        slow,fast=head,head.next
+        while fast and fast.next:
+            slow=slow.next
+            fast=fast.next.next
+        return slow
+    
+    def Merge(self,l,r):
+        temp=ans=ListNode()
+        while l and r:
+            if l.val<=r.val:
+                temp.next=l
+                l=l.next
+            else:
+                temp.next=r
+                r=r.next
+            temp=temp.next
+        if l:
+            temp.next=l
+        if r:
+            temp.next=r
+        return ans.next
             
-            ls = size//2
-            rs = size - ls 
-            ll = merge(node,ls);
-            for i in range(0,ls): node = node.next ;
-            rl = merge(node,rs)
-
-            #now merge ll(left list) and right list(rl) 
-
-            nroot =  ListNode(-1);
-            node = nroot;
-            while( ll or rl ):
-                if( ll and rl ):
-                    if( ll.val < rl.val ):
-                        node.next = ll
-                        ll = ll.next;
-                        node = node.next
-                    else:
-                        node.next = rl
-                        rl = rl.next;
-                        node=node.next
-                elif(ll):
-                    node.next = ll 
-                    ll = ll.next;
-                    node =node.next
-                else:
-                    node.next = rl
-                    rl = rl.next
-                    node = node.next
-            return nroot.next;
-
-        
-        return merge(head,size)
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        left=head
+        right=self.divide(head)
+        temp=right.next
+        right.next=None
+        right=temp
+        left=self.sortList(left)
+        right=self.sortList(right)
+        return self.Merge(left,right)
