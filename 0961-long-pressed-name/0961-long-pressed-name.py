@@ -1,23 +1,25 @@
 class Solution:
     def isLongPressedName(self, name: str, typed: str) -> bool:
-        
-        name = list(name)
-        typed = list(typed)
-        if name[0] != typed[0]:
+        if set(name) != set(typed):
             return False
-        i = 1
-        j = 1
-        while i < len(name) and j < len(typed):
-            if name[i] == typed[j]:
-                i += 1
-                j += 1
-            elif name[i-1] == typed[j]:
-                j += 1
-            else:
+        def compress_split_string(str_):
+            char_counter = 1
+            str_ += ' '
+            list_compress = []
+            for idx, t_char in enumerate(str_):
+                if idx == 0:
+                    continue
+                if t_char != str_[idx - 1]:
+                    list_compress.append(str_[idx - 1] + str(char_counter))
+                    char_counter = 1
+                else:
+                    char_counter += 1
+            return list_compress
+        name_compress = compress_split_string(name)
+        typed_compress = compress_split_string(typed)
+        if len(name_compress) != len(typed_compress):
+            return False
+        for n_num, t_num in zip(name_compress, typed_compress):
+            if t_num < n_num:
                 return False
-        while j < len(typed):
-            if name[i-1] == typed[j]:
-                j += 1
-            else:
-                return False
-        return i == len(name)
+        return True
