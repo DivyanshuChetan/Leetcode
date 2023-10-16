@@ -1,26 +1,16 @@
 class Solution:
     def buddyStrings(self, s: str, goal: str) -> bool:
-        n = len(s)
+        c1=Counter(s)
+        c2=Counter(goal)
+        if c1!=c2:
+            return False
 
-        if len(goal) != n:
-            return False;
+        diff=sum([1 for i in range(len(s)) if s[i]!=goal[i]])
+        if diff==2:
+            return True
 
-        if s == goal:
-            temp = set(s)
-            return len(temp) < len(goal)  # Swapping same characters
+        elif diff==0:
+            return any([cont>1 for char,cont in c1.items()])
 
-        i = 0
-        j = n - 1
-
-        while i < j and s[i] == goal[i]:
-            i += 1
-
-        while j >= 0 and s[j] == goal[j]:
-            j -= 1
-
-        if i < j:
-            s_list = list(s)
-            s_list[i], s_list[j] = s_list[j], s_list[i]
-            s = ''.join(s_list)
-
-        return s == goal
+        else:
+            return False            
