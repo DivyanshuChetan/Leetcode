@@ -1,13 +1,24 @@
 class Solution:
+    def isPrime(self, num):
+        a = []
+        if num <= 1: return False
+        for i in range(2, isqrt(num) + 1):
+            if not num % i:
+                a.append(i)
+        return not a
+    
     def diagonalPrime(self, nums: List[List[int]]) -> int:
-        maxi2=maxi=0
-        for i in range(len(nums)): maxi2=max(maxi2,max(nums[i]))
-        res=[0 if (i&1==0 and i!=2) or i==1 else 1 for i in range(maxi2+1) ]
-        for i in range(3,maxi2+1,2):
-            for j in range(i*i,maxi2+1,i): res[j]=0
-            
-        for i in [r[i] for i, r in enumerate(nums)]:
-            if res[i]==1: maxi=max(maxi,i)
-        for i in [r[~i] for i, r in enumerate(nums)]:
-            if res[i]==1: maxi=max(maxi,i)
-        return maxi
+        a = []
+        for i in range(len(nums)):
+            for j in range(len(nums)):
+                if i == j or i + j == len(nums) - 1:
+                    print(nums[i][j])
+                    a.append(nums[i][j])
+                    print(a)
+        b = []
+        for ele in a:
+            if self.isPrime(ele):
+                b.append(ele)
+        print(b)
+        return max(b) if b else 0
+        
