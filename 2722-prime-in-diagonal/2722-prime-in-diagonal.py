@@ -1,20 +1,13 @@
 class Solution:
     def diagonalPrime(self, nums: List[List[int]]) -> int:
-        list1=[]
-        for i in range(len(nums)):
-            for j in range(len(nums[0])):
-                if i==j:
-                    list1.append(nums[i][j])
-                    list1.append(nums[i][len(nums)-1-i])
-        answer=0
-        for i in range(len(list1)):
-                for j in range(2,int(sqrt(list1[i]))+1):
-                    if list1[i]%j==0:
-                        break
-                else:
-                    if list1[i]>answer:
-                        answer=list1[i]
-        if answer==1:
-            return 0
-        return answer
-        
+        maxi2=maxi=0
+        for i in range(len(nums)): maxi2=max(maxi2,max(nums[i]))
+        res=[0 if (i&1==0 and i!=2) or i==1 else 1 for i in range(maxi2+1) ]
+        for i in range(3,maxi2+1,2):
+            for j in range(i*i,maxi2+1,i): res[j]=0
+            
+        for i in [r[i] for i, r in enumerate(nums)]:
+            if res[i]==1: maxi=max(maxi,i)
+        for i in [r[~i] for i, r in enumerate(nums)]:
+            if res[i]==1: maxi=max(maxi,i)
+        return maxi
