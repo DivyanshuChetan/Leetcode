@@ -1,11 +1,15 @@
 class Solution:
     def countSegments(self, s: str) -> int:
-        c=[]
-        if(len(s)==0):
-            return(0)
-        else:
-            k=s.split(" ")
-            for j in k:
-                if len(j)!=0:
-                    c.append(j)
-            return(len(c))
+        n=len(s)
+        c=0
+        i=0
+        while(i<n):
+            while(i<n and s[i]==' '):i+=1
+            count=False
+            while(i<n and s[i]!=' '):
+                i+=1
+                count=True
+            if(count):c+=1 
+            i+=1  
+        return c
+            
